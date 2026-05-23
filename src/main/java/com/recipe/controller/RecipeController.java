@@ -3,13 +3,18 @@ import com.recipe.model.Recipe;
 import com.recipe.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import com.recipe.service.SpoonacularService;
+import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/recipes")
 @CrossOrigin("*")
 public class RecipeController {
+
+    @Autowired
+    private SpoonacularService spoonacularService;
 
     @Autowired
     private RecipeService recipeService;
@@ -38,5 +43,11 @@ public class RecipeController {
     public List<Recipe> searchRecipe(@RequestParam String title) {
 
         return recipeService.searchRecipe(title);
+    }
+    @GetMapping("/external")
+    public String getExternalRecipes(
+            @RequestParam String query) {
+
+        return spoonacularService.searchRecipes(query);
     }
 }
